@@ -1,26 +1,113 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+html,
+body,
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  @apply h-full;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
+  /* ── Romduol Flower Theme ──────────────────────────────────────────
+     Cambodia's national flower: pale yellow-cream petals, waxy matte
+     finish, deepening to warm amber-gold as the blossom matures.
+  ──────────────────────────────────────────────────────────────────── */
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Warm petal-cream background */
+    --background: 48 80% 98%;
+    --foreground: 30 30% 12%;
+
+    /* Cards slightly warmer than background */
+    --card: 47 70% 97%;
+    --card-foreground: 30 30% 12%;
+
+    /* Popovers */
+    --popover: 47 70% 97%;
+    --popover-foreground: 30 30% 12%;
+
+    /* Primary — deep amber-gold (aged Romduol) */
+    --primary: 38 90% 43%;
+    --primary-foreground: 48 100% 97%;
+
+    /* Secondary — soft petal cream (very light background tint) */
+    --secondary: 46 85% 91%;
+    --secondary-foreground: 35 85% 28%;
+
+    /* Muted — near-white warm cream */
+    --muted: 46 60% 94%;
+    --muted-foreground: 35 25% 45%;
+
+    /* Accent — warm tan */
+    --accent: 44 78% 83%;
+    --accent-foreground: 35 85% 28%;
+
+    /* Destructive stays red — universal UX signal */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 48 100% 97%;
+
+    /* Borders — warm tan edge */
+    --border: 43 45% 84%;
+    --input: 43 45% 84%;
+    --ring: 40 88% 52%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 30 25% 9%;
+    --foreground: 46 85% 91%;
+
+    --card: 30 22% 12%;
+    --card-foreground: 46 85% 91%;
+
+    --popover: 30 22% 12%;
+    --popover-foreground: 46 85% 91%;
+
+    --primary: 40 88% 52%;
+    --primary-foreground: 30 25% 9%;
+
+    --secondary: 35 30% 18%;
+    --secondary-foreground: 46 85% 91%;
+
+    --muted: 35 28% 16%;
+    --muted-foreground: 43 40% 60%;
+
+    --accent: 35 30% 18%;
+    --accent-foreground: 46 85% 91%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 46 85% 91%;
+
+    --border: 35 28% 20%;
+    --input: 35 28% 20%;
+    --ring: 40 88% 52%;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    position: relative;
+    @apply text-foreground;
+  }
+  
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/romdol.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    opacity: 0.15;
+    z-index: -1;
+    pointer-events: none;
+  }
 }

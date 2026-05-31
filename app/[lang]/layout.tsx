@@ -1,0 +1,56 @@
+import { ClerkProvider } from "@clerk/nextjs";
+import { Nunito, Noto_Sans_Khmer } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { siteConfig } from "@/config";
+
+import { ExitModal } from "@/components/modals/exit-modal";
+import { HeartsModal } from "@/components/modals/hearts-modal";
+import { PracticeModal } from "@/components/modals/practice-modal";
+import { Toaster } from "@/components/ui/sonner";
+
+import { getDictionary, defaultLocale, locales } from "./dictionaries";
+import { DictionaryProvider } from "./lang-provider";
+import "../globals.css";
+
+const nunito = Nunito({ subsets: ["latin"] });
+const khmerFont = Noto_Sans_Khmer({ subsets: ["khmer"], weight: "400" });
+
+export const viewport: Viewport = { themeColor: "#D97706" };
+export const metadata: Metadata = siteConfig;
+
+export async function generateStaticParams() {
+  return locales.map((lang) => ({ lang }));
+}
+
+export default async function RootLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang } = await params;
+  const dict = await getDictionary(lang as any);
+  const fontClass = lang === "km" ? khmerFont.className : nunito.className;
+  return (
+    <ClerkProvider
+      appearance={{
+        layout: { logoImageUrl: "/favicon.ico" },
+        variables: { colorPrimary: "#D97706" },
+      }}
+      afterSignOutUrl="/"
+    >
+      <html lang={lang}>
+        <body className={fontClass}>
+          <DictionaryProvider dictionary={dict} lang={lang as any}>
+            <Toaster theme="light" richColors closeButton />
+            <ExitModal />
+            <HeartsModal />
+            <PracticeModal />
+            {children}
+          </DictionaryProvider>
+        </body>
+      </html>
+    </ClerkProvider>
+  );
+}
